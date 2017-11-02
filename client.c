@@ -1,10 +1,10 @@
-ÎÄ¼ş£ºclient.c
-PS£ºµÚÒ»¸öÁ¬½ÓÉÏ·şÎñÆ÷µÄ¿Í»§¶Ë£¬³ÆÎªclient1£¬µÚ¶ş¸öÁ¬½ÓÉÏ·şÎñÆ÷µÄ¿Í»§¶Ë³ÆÎªclient2
-Õâ¸ö³ÌĞòµÄ¹¦ÄÜÊÇ£ºÏÈÁ¬½ÓÉÏ·şÎñÆ÷£¬¸ù¾İ·şÎñÆ÷µÄ·µ»Ø¾ö¶¨ËüÊÇclient1»¹ÊÇclient2£¬
-ÈôÊÇclient1£¬Ëü¾Í´Ó·şÎñÆ÷ÉÏµÃµ½client2µÄIPºÍPort£¬Á¬½ÓÉÏclient2,
-ÈôÊÇclient2£¬Ëü¾Í´Ó·şÎñÆ÷ÉÏµÃµ½client1µÄIPºÍPortºÍ×ÔÉí¾­×ª»»ºóµÄport£¬
-ÔÚ³¢ÊÔÁ¬½ÓÁËÒ»ÏÂclient1ºó£¨Õâ¸ö²Ù×÷»áÊ§°Ü£©£¬È»ºó¸ù¾İ·şÎñÆ÷·µ»ØµÄport½øĞĞ¼àÌı¡£
-ÕâÑùÒÔºó£¬¾ÍÄÜÔÚÁ½¸ö¿Í»§¶ËÖ®¼ä½øĞĞµã¶ÔµãÍ¨ĞÅÁË¡£
+/*æ–‡ä»¶ï¼šclient.c
+PSï¼šç¬¬ä¸€ä¸ªè¿æ¥ä¸ŠæœåŠ¡å™¨çš„å®¢æˆ·ç«¯ï¼Œç§°ä¸ºclient1ï¼Œç¬¬äºŒä¸ªè¿æ¥ä¸ŠæœåŠ¡å™¨çš„å®¢æˆ·ç«¯ç§°ä¸ºclient2
+è¿™ä¸ªç¨‹åºçš„åŠŸèƒ½æ˜¯ï¼šå…ˆè¿æ¥ä¸ŠæœåŠ¡å™¨ï¼Œæ ¹æ®æœåŠ¡å™¨çš„è¿”å›å†³å®šå®ƒæ˜¯client1è¿˜æ˜¯client2ï¼Œ
+è‹¥æ˜¯client1ï¼Œå®ƒå°±ä»æœåŠ¡å™¨ä¸Šå¾—åˆ°client2çš„IPå’ŒPortï¼Œè¿æ¥ä¸Šclient2,
+è‹¥æ˜¯client2ï¼Œå®ƒå°±ä»æœåŠ¡å™¨ä¸Šå¾—åˆ°client1çš„IPå’ŒPortå’Œè‡ªèº«ç»è½¬æ¢åçš„portï¼Œ
+åœ¨å°è¯•è¿æ¥äº†ä¸€ä¸‹client1åï¼ˆè¿™ä¸ªæ“ä½œä¼šå¤±è´¥ï¼‰ï¼Œç„¶åæ ¹æ®æœåŠ¡å™¨è¿”å›çš„portè¿›è¡Œç›‘å¬ã€‚
+è¿™æ ·ä»¥åï¼Œå°±èƒ½åœ¨ä¸¤ä¸ªå®¢æˆ·ç«¯ä¹‹é—´è¿›è¡Œç‚¹å¯¹ç‚¹é€šä¿¡äº†ã€‚
 */
 
 #include <stdio.h>
@@ -26,11 +26,11 @@ typedef struct
 	int port;
 }server;
 
-//·¢ÉúÁËÖÂÃü´íÎó£¬ÍË³ö³ÌĞò
+//å‘ç”Ÿäº†è‡´å‘½é”™è¯¯ï¼Œé€€å‡ºç¨‹åº
 void error_quit(const char *str)    
 {    
 	fprintf(stderr, "%s", str); 
-	//Èç¹ûÉèÖÃÁË´íÎóºÅ£¬¾ÍÊäÈë³ö´íÔ­Òò
+	//å¦‚æœè®¾ç½®äº†é”™è¯¯å·ï¼Œå°±è¾“å…¥å‡ºé”™åŸå› 
 	if( errno != 0 )
 		fprintf(stderr, " : %s", strerror(errno));
 	printf("\n");
@@ -50,36 +50,36 @@ int main(int argc, char **argv)
 	if( argc != 2 )
 		error_quit("Using: ./client <IP Address>");
 
-	//´´½¨ÓÃÓÚÁ´½Ó£¨Ö÷·şÎñÆ÷£©µÄÌ×½Ó×Ö        
+	//åˆ›å»ºç”¨äºé“¾æ¥ï¼ˆä¸»æœåŠ¡å™¨ï¼‰çš„å¥—æ¥å­—        
 	sockfd = socket(AF_INET, SOCK_STREAM, 0); 
 	memset(&sockaddr, 0, sizeof(sockaddr));      
 	sockaddr.sin_family = AF_INET;      
 	sockaddr.sin_addr.s_addr = htonl(INADDR_ANY);      
 	sockaddr.sin_port = htons(SERV_PORT);      
 	inet_pton(AF_INET, argv[1], &sockaddr.sin_addr);
-	//ÉèÖÃ¶Ë¿Ú¿ÉÒÔ±»ÖØÓÃ
+	//è®¾ç½®ç«¯å£å¯ä»¥è¢«é‡ç”¨
 	setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &value, sizeof(value));
 
-	//Á¬½ÓÖ÷·şÎñÆ÷
+	//è¿æ¥ä¸»æœåŠ¡å™¨
 	res = connect(sockfd, (struct sockaddr *)&sockaddr, sizeof(sockaddr)); 
 	if( res < 0 )
 		error_quit("connect error");
 
-	//´ÓÖ÷·şÎñÆ÷ÖĞ¶ÁÈ¡³öĞÅÏ¢
+	//ä»ä¸»æœåŠ¡å™¨ä¸­è¯»å–å‡ºä¿¡æ¯
 	res = read(sockfd, buffer, MAXLINE);
 	if( res < 0 )
 		error_quit("read error");
 	printf("Get: %s", buffer);
 
-	//Èô·şÎñÆ÷·µ»ØµÄÊÇfirst£¬ÔòÖ¤Ã÷ÊÇµÚÒ»¸ö¿Í»§¶Ë
+	//è‹¥æœåŠ¡å™¨è¿”å›çš„æ˜¯firstï¼Œåˆ™è¯æ˜æ˜¯ç¬¬ä¸€ä¸ªå®¢æˆ·ç«¯
 	if( 'f' == buffer[0] )
 	{
-		//´Ó·şÎñÆ÷ÖĞ¶ÁÈ¡µÚ¶ş¸ö¿Í»§¶ËµÄIP+port
+		//ä»æœåŠ¡å™¨ä¸­è¯»å–ç¬¬äºŒä¸ªå®¢æˆ·ç«¯çš„IP+port
 		res = read(sockfd, buffer, MAXLINE);
 		sscanf(buffer, "%s %d", other.ip, &other.port);
 		printf("ff: %s %d\n", other.ip, other.port);
 
-		//´´½¨ÓÃÓÚµÄÌ×½Ó×Ö        
+		//åˆ›å»ºç”¨äºçš„å¥—æ¥å­—        
 		connfd = socket(AF_INET, SOCK_STREAM, 0); 
 		memset(&connaddr, 0, sizeof(connaddr));      
 		connaddr.sin_family = AF_INET;      
@@ -87,8 +87,8 @@ int main(int argc, char **argv)
 		connaddr.sin_port = htons(other.port);    
 		inet_pton(AF_INET, other.ip, &connaddr.sin_addr);
 
-		//³¢ÊÔÈ¥Á¬½ÓµÚ¶ş¸ö¿Í»§¶Ë£¬Ç°¼¸´Î¿ÉÄÜ»áÊ§°Ü£¬ÒòÎª´©Í¸»¹Ã»³É¹¦£¬
-		//Èç¹ûÁ¬½Ó10´Î¶¼Ê§°Ü£¬¾ÍÖ¤Ã÷´©Í¸Ê§°ÜÁË£¨¿ÉÄÜÊÇÓ²¼ş²»Ö§³Ö£©
+		//å°è¯•å»è¿æ¥ç¬¬äºŒä¸ªå®¢æˆ·ç«¯ï¼Œå‰å‡ æ¬¡å¯èƒ½ä¼šå¤±è´¥ï¼Œå› ä¸ºç©¿é€è¿˜æ²¡æˆåŠŸï¼Œ
+		//å¦‚æœè¿æ¥10æ¬¡éƒ½å¤±è´¥ï¼Œå°±è¯æ˜ç©¿é€å¤±è´¥äº†ï¼ˆå¯èƒ½æ˜¯ç¡¬ä»¶ä¸æ”¯æŒï¼‰
 		while( 1 )
 		{
 			static int j = 1;
@@ -105,7 +105,7 @@ int main(int argc, char **argv)
 		}
 
 		strcpy(buffer, "Hello, world\n");
-		//Á¬½Ó³É¹¦ºó£¬Ã¿¸ôÒ»ÃëÖÓÏò¶Ô·½£¨¿Í»§¶Ë2£©·¢ËÍÒ»¾ähello, world
+		//è¿æ¥æˆåŠŸåï¼Œæ¯éš”ä¸€ç§’é’Ÿå‘å¯¹æ–¹ï¼ˆå®¢æˆ·ç«¯2ï¼‰å‘é€ä¸€å¥hello, world
 		while( 1 )
 		{
 			res = write(connfd, buffer, strlen(buffer)+1);
@@ -115,57 +115,57 @@ int main(int argc, char **argv)
 			sleep(1);
 		}
 	}
-	//µÚ¶ş¸ö¿Í»§¶ËµÄĞĞÎª
+	//ç¬¬äºŒä¸ªå®¢æˆ·ç«¯çš„è¡Œä¸º
 	else
 	{
-		//´ÓÖ÷·şÎñÆ÷·µ»ØµÄĞÅÏ¢ÖĞÈ¡³ö¿Í»§¶Ë1µÄIP+portºÍ×Ô¼º¹«ÍøÓ³ÉäºóµÄport
+		//ä»ä¸»æœåŠ¡å™¨è¿”å›çš„ä¿¡æ¯ä¸­å–å‡ºå®¢æˆ·ç«¯1çš„IP+portå’Œè‡ªå·±å…¬ç½‘æ˜ å°„åçš„port
 		sscanf(buffer, "%s %d %d", other.ip, &other.port, &port);
 
-		//´´½¨ÓÃÓÚTCPĞ­ÒéµÄÌ×½Ó×Ö        
+		//åˆ›å»ºç”¨äºTCPåè®®çš„å¥—æ¥å­—        
 		sockfd = socket(AF_INET, SOCK_STREAM, 0); 
 		memset(&connaddr, 0, sizeof(connaddr));      
 		connaddr.sin_family = AF_INET;      
 		connaddr.sin_addr.s_addr = htonl(INADDR_ANY);      
 		connaddr.sin_port = htons(other.port);      
 		inet_pton(AF_INET, other.ip, &connaddr.sin_addr);
-		//ÉèÖÃ¶Ë¿ÚÖØÓÃ
+		//è®¾ç½®ç«¯å£é‡ç”¨
 		setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &value, sizeof(value));
 
-		//³¢ÊÔÁ¬½Ó¿Í»§¶Ë1£¬¿Ï¶¨»áÊ§°Ü£¬µ«Ëü»áÔÚÂ·ÓÉÆ÷ÉÏÁôÏÂ¼ÇÂ¼£¬
-		//ÒÔ°ïÃ¦¿Í»§¶Ë1³É¹¦´©Í¸£¬Á¬½ÓÉÏ×Ô¼º 
+		//å°è¯•è¿æ¥å®¢æˆ·ç«¯1ï¼Œè‚¯å®šä¼šå¤±è´¥ï¼Œä½†å®ƒä¼šåœ¨è·¯ç”±å™¨ä¸Šç•™ä¸‹è®°å½•ï¼Œ
+		//ä»¥å¸®å¿™å®¢æˆ·ç«¯1æˆåŠŸç©¿é€ï¼Œè¿æ¥ä¸Šè‡ªå·± 
 		res = connect(sockfd, (struct sockaddr *)&connaddr, sizeof(connaddr)); 
 		if( res < 0 )
 			printf("connect error\n");
 
-		//´´½¨ÓÃÓÚ¼àÌıµÄÌ×½Ó×Ö        
+		//åˆ›å»ºç”¨äºç›‘å¬çš„å¥—æ¥å­—        
 		listenfd = socket(AF_INET, SOCK_STREAM, 0); 
 		memset(&servaddr, 0, sizeof(servaddr));      
 		servaddr.sin_family = AF_INET;      
 		servaddr.sin_addr.s_addr = htonl(INADDR_ANY);      
 		servaddr.sin_port = htons(port);
-		//ÉèÖÃ¶Ë¿ÚÖØÓÃ
+		//è®¾ç½®ç«¯å£é‡ç”¨
 		setsockopt(listenfd, SOL_SOCKET, SO_REUSEADDR, &value, sizeof(value));
 
-		//°ÑsocketºÍsocketµØÖ·½á¹¹ÁªÏµÆğÀ´ 
+		//æŠŠsocketå’Œsocketåœ°å€ç»“æ„è”ç³»èµ·æ¥ 
 		res = bind(listenfd, (struct sockaddr *)&servaddr, sizeof(servaddr));    
 		if( -1 == res )
 			error_quit("bind error");
 
-		//¿ªÊ¼¼àÌı¶Ë¿Ú       
+		//å¼€å§‹ç›‘å¬ç«¯å£       
 		res = listen(listenfd, INADDR_ANY);    
 		if( -1 == res )
 			error_quit("listen error");
 
 		while( 1 )
 		{
-			//½ÓÊÕÀ´×Ô¿Í»§¶Ë1µÄÁ¬½Ó
+			//æ¥æ”¶æ¥è‡ªå®¢æˆ·ç«¯1çš„è¿æ¥
 			connfd = accept(listenfd,(struct sockaddr *)&sockaddr, &clilen);  
 			if( -1 == connfd )
 				error_quit("accept error");
 
 			while( 1 )
 			{
-				//Ñ­»·¶ÁÈ¡À´×ÔÓÚ¿Í»§¶Ë1µÄĞÅÏ¢
+				//å¾ªç¯è¯»å–æ¥è‡ªäºå®¢æˆ·ç«¯1çš„ä¿¡æ¯
 				res = read(connfd, buffer, MAXLINE);
 				if( res <= 0 )
 					error_quit("read error");
