@@ -1,0 +1,7 @@
+文件：client.c
+PS：第一个连接上服务器的客户端，称为client1，第二个连接上服务器的客户端称为client2
+这个程序的功能是：先连接上服务器，根据服务器的返回决定它是client1还是client2，
+若是client1，它就从服务器上得到client2的IP和Port，连接上client2,
+若是client2，它就从服务器上得到client1的IP和Port和自身经转换后的port，
+在尝试连接了一下client1后（这个操作会失败），然后根据服务器返回的port进行监听。
+这样以后，就能在两个客户端之间进行点对点通信了。

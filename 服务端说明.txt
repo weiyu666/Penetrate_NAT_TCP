@@ -1,0 +1,5 @@
+文件：server.c
+PS：第一个连接上服务器的客户端，称为client1，第二个连接上服务器的客户端称为client2
+这个服务器的功能是：
+1：对于client1，它返回"first"，并在client2连接上之后，将client2经过转换后的IP和port发给client1；
+2：对于client2，它返回client1经过转换后的IP和port和自身的port，并在随后断开与他们的连接。

@@ -1,0 +1,21 @@
+（第一个终端） 
+qch@qch ~/program/tcode $ gcc server.c -o server 
+qch@qch ~/program/tcode $ ./server & 
+[1] 4688 
+qch@qch ~/program/tcode $ gcc client.c -o client 
+qch@qch ~/program/tcode $ ./client localhost 
+Get: first 
+ff: 127.0.0.1 38052 
+send message: Hello, world 
+send message: Hello, world 
+send message: Hello, world 
+................. 
+
+
+第二个终端： 
+qch@qch ~/program/tcode $ ./client localhost 
+Get: 127.0.0.1 38073 38074 
+connect error 
+recv message: Hello, world 
+recv message: Hello, world 
+recv message: Hello, world 
